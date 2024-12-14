@@ -1,0 +1,46 @@
+cmake_minimum_required(VERSION 3.19...3.30)
+
+project(MAGIC LANGUAGES C Fortran)
+
+enable_testing()
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+find_package(MPI COMPONENTS Fortran REQUIRED)
+
+find_package(HDF5 COMPONENTS Fortran parallel REQUIRED)
+
+add_library(common OBJECT b4step3.f bc3_mpi.f
+qinit.f rpn3euX.f rpt3euX.f rptt3euX.f
+fcns.f setaux_dynamicbg.f setprob.f
+diffuse.f conduct.f ohsteady.f src3.f90
+mpilib/claw3ez_mpi_dynamicbg.f
+mpilib/claw3_mpi.f
+lib/chkmth.f
+lib/step3.f
+lib/step3ds.f
+lib/dimsp3.f
+lib/flux3fw.f
+lib/copyq3.f
+)
+target_link_libraries(common PUBLIC MPI::MPI_Fortran)
+
+add_executable(xclawmpihdf mpilib/claw3ez_mpi_driver.f
+mpilib/out3_mpi_h5sep.f90
+mpilib/restart3_mpi_hdfsep.f90
+)
+target_link_libraries(xclawmpihdf PRIVATE common HDF5::HDF5 MPI::MPI_Fortran)
+
+if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+
+foreach(t IN ITEMS common xclawmpihdf)
+
+  target_compile_options(${t} PRIVATE
+  -std=legacy
+  "$<$<NOT:$<CONFIG:Debug,RelWithDebInfo>>:-fno-backtrace>"
+  "$<$<VERSION_GREATER_EQUAL:$<Fortran_COMPILER_VERSION>,10>:-fallow-invalid-boz>"
+  )
+
+endforeach()
+
+endif()

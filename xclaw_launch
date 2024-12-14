@@ -1,0 +1,39 @@
+#!/bin/bash
+
+ 
+# PBS <-- This is a comment, note the whitespace
+# PBS -V
+#PBS -q normalq
+#PBS -l walltime=24:00:00
+#PBS -l nodes=1:ppn=36
+#PBS -N MAGIC3D_Test
+#PBS -M snivelyj@erau.edu
+#PBS -m aeb
+
+#PBS -e /scratch/snivelyj/MAGIC/3d/pbs_errors.out
+#PBS -o /scratch/snivelyj/MAGIC/3d/pbs_output.out
+
+ 
+# Instead of loading modules into your profile, you can alternatively load them
+# during job submission
+module load intel/compiler/64/2018/18.0.1
+module load intel/mpi/64/2018/1.163
+# module load hdf5/intel-mpi/intel-compiler/1.10.4
+ulimit -s unlimited 
+
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/scratch/snivelyj/mylib/lib:/usr/lib64
+PATH=$PATH:/scratch/snivelyj/mylib/lib
+export LD_LIBRARY_PATH
+export PATH
+
+CPUS='cat $PBS_NODEFILE | wc -l'
+echo $PBS_NODEFILE
+echo $CPUS
+echo $PBS_NP # PBS_NP == CPUS
+echo $PBS_O_WORKDIR
+echo $LD_LIBRARY_PATH
+echo $PATH
+
+cd /scratch/snivelyj/MAGIC/3d
+cat $PBS_NODEFILE
+mpirun -machinefile $PBS_NODEFILE -n $PBS_NP ./xclawmpi

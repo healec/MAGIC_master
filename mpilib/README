@@ -1,0 +1,5 @@
+These are the Clawpack MPI library files.
+
+Modified Feb. 2019 to work with 5.X Classic.
+
+Note that claw3ez_mpi.f initalizes the use_fwave logical.
