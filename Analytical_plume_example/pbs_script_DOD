@@ -1,22 +1,22 @@
 #!/bin/bash
 
 ## Required Directives ------------------------------------
-#PBS -l select=8:ncpus=100:mpiprocs=100
+#PBS -l select=1:ncpus=125:mpiprocs=125
 #PBS -l walltime=4:00:00
 #PBS -q background
 #PBS -A DARPA4763B987
 #
 ## Optional Directives ------------------------------------
-#PBS -N Base_code_test
+#PBS -N MAGIC_test
 #PBS -M healec@erau.edu
 #PBS -m be
-#PBS -e /p/work1/healec/MAGIC_master/precip_plume_example/pbs_errors.out
-#PBS -o /p/work1/healec/MAGIC_master/precip_plume_example/pbs_output.out
+#PBS -e /p/work1/healec/primvssec3D/Base_code_no_outputs/pbs_errors.out
+#PBS -o /p/work1/healec/primvssec3D/Base_code_no_outputs/pbs_output.out
 #
 ## Execution Block ----------------------------------------
 # Environment Setup
 # cd to the directory where qsub was called
-cd /p/work1/healec/MAGIC_master/precip_plume_example
+cd /p/work1/healec/primvssec3D/Base_code_no_outputs/
 #
 module load cray-mpich
 module load cray-hdf5-parallel

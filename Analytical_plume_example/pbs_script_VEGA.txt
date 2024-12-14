@@ -1,0 +1,27 @@
+#!/bin/bash
+# This is comment
+#PBS -q normalq
+#PBS -l walltime=24:00:00
+#PBS -l nodes=1:ppn=125
+#PBS -N MAGIC_test
+#PBS -M healec@erau.edu
+#PBS -m aeb
+cd $PBS_O_WORKDIR
+
+# PBS -l mem=160000mb
+#PBS -e $PBS_O_WORKDIR/pbs_errors.out
+#PBS -o $PBS_O_WORKDIR/pbs_output.out
+
+# cd $PBS_O_WORKDIR
+# echo $PBS_O_WORKDIR
+
+# Load modules during job submission!
+module load openmpi
+module load cmake
+module load gcc/8.5.0-gcc-8.5.0-cokvw3c
+
+# Run the program
+mpirun -np $PBS_NP ./xclawmpihdf
+#
+
+
