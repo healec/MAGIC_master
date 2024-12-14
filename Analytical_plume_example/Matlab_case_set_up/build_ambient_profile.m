@@ -21,13 +21,11 @@ smoothin=3; %smoothing factor in km
 
 %Select the latitude of interest
 latin=44.5;
-%choose latitude averaging length (+/- from center)
-%latext=5;
+
 
 %Select the longitude of interest
 lonin=-100.5;
-%choose longitude averaging length (+/- from center)
-%lonext=5;
+
 
 %Select the year of interest
 yearin=2022;
