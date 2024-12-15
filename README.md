@@ -14,12 +14,16 @@ This version also has both the thunderstorm forcing for precipitation driven fil
 ### To compile with CMAKE:
 
 Firstly, you need h5fortran installed, this can be done using the following:
--Cd into the h5fortran/scripts directory (you may also need to load cmake first
+-Cd into the h5fortran/scripts directory (you may also need to load cmake first)
+
 cmake -B build -DCMAKE_INSTALL_PREFIX=~/local -Dhdf5_parallel=on
+
 cmake --build build
 
 Once this is installed, go into the MAGIC_master directory and type:
+
 cmake -B build -DHDF5_ROOT=~/local
+
 cmake --build build
 
 This will build the version with the static MAGIC backgrounds. To build the dynamic background version, cp CMakeLists_dynamic.txt to CMakeLists.txt, remove the build folder ( rm -rf build) and follw the steps above.
