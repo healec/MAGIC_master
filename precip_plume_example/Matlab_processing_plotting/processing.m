@@ -2,8 +2,9 @@
 %----------------------User inputs----------------------------------------
 %-------------------------------------------------------------------------
 
-%-----Point to the .mat file produced
+%-----Point to where the fort files are
 addpath '../outputs'
+%-----Point to the .mat file produced from the process_radar_data.m script
 load('../Derecho_5Jul2022_16UT.mat')
 %point to where to save the output files and the names to give them
 output_dir='../Matlab_outputs/';
@@ -13,6 +14,7 @@ Frame=0; % Frame number to start
 MaxFrames=66; % Number of Frames (same as nout in claw3ez.data)
 zref=[35, 55, 87]; %define altitude indexes to extract x-y slices
 yref=100; %define y index to extract an x-z slice
+xref=50; %define x index to extract an y-z slice
 
 %--------------------End of user inputs------------------------------------
 %--------------------------------------------------------------------------
@@ -46,6 +48,7 @@ meqn = attr(4);
 lx = attr(22);
 ly = attr(23);
 lz = attr(24);
+z=0:dz:((lz*mz)-1)*dz;
 
     fprintf('Working on data for Frame: %d at time: %d s for file: %s\n',Frame,t,nameCur);
 
@@ -110,20 +113,25 @@ temps=T-T0;
 U_out=U(:,:,zref);
 V_out=V(:,:,zref);
 W_out=W(:,:,zref);
-T_out=T(:,:,zref);
-P_out=P(:,:,zref);
-rho_out=rho(:,:,zref);
-dnit2_out=dnit2(:,:,zref);
-dox_out=dox(:,:,zref);
+T_out=temps(:,:,zref);
+%P_out=P(:,:,zref);
+%rho_out=rho(:,:,zref);
+%dnit2_out=dnit2(:,:,zref);
+%dox_out=dox(:,:,zref);
 
 U_outxz=squeeze(U(:,yref,:));
 V_outxz=squeeze(V(:,yref,:));
 W_outxz=squeeze(W(:,yref,:));
-T_outxz=squeeze(T(:,yref,:));
+T_outxz=squeeze(temps(:,yref,:));
+
+U_outyz=squeeze(U(xref,:,:));
+V_outyz=squeeze(V(xref,:,:));
+W_outyz=squeeze(W(xref,:,:));
+T_outyz=squeeze(temps(xref,:,:));
 
 
-name = strcat(output_dir,output_name,num2str(timefinal(Frame+1)),'.mat');
-save(name,'U_out','V_out','W_out','T_out','P_out','rho_out','dox_out','dnit2_out','U_outxz','V_outxz','W_outxz','T_outxz','x','y','z','dx','dy','dz','Lat','Lon','zref','yref','-v7.3')
+name = strcat(output_dir,output_name,num2str(Frame),'.mat');
+save(name,'U_out','V_out','W_out','T_out','U_outxz','V_outxz','W_outxz','T_outxz','U_outyz','V_outyz','W_outyz','T_outyz','x','y','z','dx','dy','dz','Lat','Lon','zref','yref','xref','-v7.3')
 
     Frame = Frame + 1;
 
