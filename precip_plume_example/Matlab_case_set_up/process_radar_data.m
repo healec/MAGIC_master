@@ -3,7 +3,9 @@
 
 %insert paramters of interest------------------------------------------
 
-
+%Get path variable for unix system calls
+PATH = getenv('PATH');
+setenv('PATH', [PATH ':/opt/local/bin/:/usr/local/bin:usr/bin']); %%% Requires wget and unix command rm
 year='2022'; %must be 2015 or later.
 month='07'; %Day 186
 day='05';
@@ -46,9 +48,6 @@ Lat2=repmat(Lat,[size(Lon2,1),1]);
 
 tStart = cputime;
 %Download data------------------------------------------------------------
-%Get path variable for unix system calls
-PATH = getenv('PATH');
-setenv('PATH', [PATH ':/opt/local/bin/:/usr/local/bin:usr/bin']);
 
 % set path to webserver
 s4=strcat('https://mtarchive.geol.iastate.edu/',num2str(year),'/',num2str(month),'/',num2str(day),'/mrms/ncep/PrecipRate/');
